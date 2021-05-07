@@ -19,7 +19,7 @@ def sel():
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--incognito')
     options.add_argument('--headless')
-    driver = webdriver.Chrome(r'chromedriver',chrome_options=options) 
+    driver = webdriver.Chrome(r'cowin-appointment-checker/chromedriver',chrome_options=options) 
     return driver
 
 @st.cache(allow_output_mutation=True)
