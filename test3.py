@@ -71,7 +71,7 @@ def main():
         url="https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="+str(t1)+"&date="+str(datec)
         driver.get(url)
         page_source = driver.page_source
-        soup = BeautifulSoup(page_source,'html5lib').get_text() 
+        soup = BeautifulSoup(page_source,'lxml').get_text() 
         data=json.loads(soup.encode("utf-8"))
         finaldata=data['centers']
         df = pd.DataFrame()
