@@ -74,6 +74,7 @@ def main():
         #page_source = driver.page_source
         #soup = BeautifulSoup(page_source,'lxml').get_text() 
         soup=r.text
+        st.write(soup)
         data=json.loads(soup.encode("utf-8"))
         finaldata=data['centers']
         df = pd.DataFrame()
