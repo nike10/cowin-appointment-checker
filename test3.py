@@ -6,8 +6,6 @@ Created on Fri May  7 12:58:09 2021
 """
 
 import requests
-from selenium import webdriver
-#from bs4 import BeautifulSoup 
 from bs4 import BeautifulSoup as soup
 import json
 import streamlit as st
@@ -26,14 +24,6 @@ headers={
 }
 
 
-@st.cache(allow_output_mutation=True)
-def sel():
-    options = webdriver.ChromeOptions()
-    options.add_argument('--ignore-certificate-errors')
-    options.add_argument('--incognito')
-    options.add_argument('--headless')
-    driver = webdriver.Chrome(r'chromedriver',chrome_options=options) 
-    return driver
 
 @st.cache(allow_output_mutation=True)
 def files():
@@ -52,7 +42,6 @@ def files():
 
 
 
-driver=sel()
 districtnames,dists=files()
 
 def main():
@@ -81,15 +70,7 @@ def main():
     if button:
         url="https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="+str(t1)+"&date="+str(datec)
         r = requests.get(url ,headers=headers )
-        #req = Request(url , headers={'User-Agent': 'Mozilla/5.0'})
-
-        #webpage = urlopen(req).read()
-        #page_soup = soup(webpage, "html.parser")
-        # driver.get(url)
-        # page_source = driver.page_source
-        # soup = BeautifulSoup(page_source,'lxml').get_text() 
         soup=r.text
-        st.write(soup)
         data=json.loads(soup.encode("utf-8"))
         
         finaldata=data['centers']
