@@ -17,9 +17,12 @@ import requests
 from urllib.request import Request, urlopen 
 st.set_page_config( layout='wide')
 
-headers = {
-    'User-Agent': 'My User Agent 1.0',
-    'From': 'youremail@domain.com'  # This is another valid field
+
+
+headers={
+  
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36", 
+    "X-Amzn-Trace-Id": "Root=1-60953d79-32115db82937573f5ed786f3"
 }
 
 
@@ -77,16 +80,17 @@ def main():
     
     if button:
         url="https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="+str(t1)+"&date="+str(datec)
-       # r = requests.get(url ,headers=headers )
-        req = Request(url , headers={'User-Agent': 'Mozilla/5.0'})
+        r = requests.get(url ,headers=headers )
+        #req = Request(url , headers={'User-Agent': 'Mozilla/5.0'})
 
-        webpage = urlopen(req).read()
-        page_soup = soup(webpage, "html.parser")
+        #webpage = urlopen(req).read()
+        #page_soup = soup(webpage, "html.parser")
         # driver.get(url)
         # page_source = driver.page_source
         # soup = BeautifulSoup(page_source,'lxml').get_text() 
-        #soup=r.text
-        data=json.loads(page_soup.encode("utf-8"))
+        soup=r.text
+        st.write(soup)
+        data=json.loads(soup.encode("utf-8"))
         
         finaldata=data['centers']
         df = pd.DataFrame()
