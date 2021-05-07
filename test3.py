@@ -72,7 +72,7 @@ def main():
         driver.get(url)
         page_source = driver.page_source
         soup = BeautifulSoup(page_source,'html5lib').get_text() 
-        data=json.loads(soup)
+        data=json.loads(soup.encode("utf-8"))
         finaldata=data['centers']
         df = pd.DataFrame()
         try:
