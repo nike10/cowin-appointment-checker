@@ -7,23 +7,29 @@ Created on Fri May  7 12:58:09 2021
 
 import requests
 from selenium import webdriver
-from bs4 import BeautifulSoup 
+#from bs4 import BeautifulSoup 
+from bs4 import BeautifulSoup as soup
 import json
 import streamlit as st
 import pandas as pd
 from datetime import datetime
-import os
-
-
+import requests
+from urllib.request import Request, urlopen 
 st.set_page_config( layout='wide')
+
+headers = {
+    'User-Agent': 'My User Agent 1.0',
+    'From': 'youremail@domain.com'  # This is another valid field
+}
+
+
 @st.cache(allow_output_mutation=True)
 def sel():
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--no-sandbox")
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    options = webdriver.ChromeOptions()
+    options.add_argument('--ignore-certificate-errors')
+    options.add_argument('--incognito')
+    options.add_argument('--headless')
+    driver = webdriver.Chrome(r'chromedriver',chrome_options=options) 
     return driver
 
 @st.cache(allow_output_mutation=True)
@@ -45,7 +51,9 @@ def files():
 
 driver=sel()
 districtnames,dists=files()
+
 def main():
+    global soup
     st.title("CoWin Appointment Availability Checker")
     with st.form(key='form1'):
         col1,col2 = st.beta_columns([2,1])
@@ -69,13 +77,17 @@ def main():
     
     if button:
         url="https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="+str(t1)+"&date="+str(datec)
-        #r = requests.get(url )
-        driver.get(url)
-        page_source = driver.page_source
-        soup = BeautifulSoup(page_source,'html5lib').get_text() 
+       # r = requests.get(url ,headers=headers )
+        req = Request(url , headers={'User-Agent': 'Mozilla/5.0'})
+
+        webpage = urlopen(req).read()
+        page_soup = soup(webpage, "html.parser")
+        # driver.get(url)
+        # page_source = driver.page_source
+        # soup = BeautifulSoup(page_source,'lxml').get_text() 
         #soup=r.text
-        st.write(soup)
-        data=json.loads(soup.encode("utf-8"))
+        data=json.loads(page_soup.encode("utf-8"))
+        
         finaldata=data['centers']
         df = pd.DataFrame()
         try:
