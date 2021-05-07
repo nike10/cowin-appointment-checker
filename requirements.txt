@@ -6,6 +6,7 @@
 beautifulsoup4 == 4.9.3
 html5lib == 1.1
 lxml == 4.6.3
+urllib3 == 1.26.4
 # D:\cowin\test1.py: 13
 # D:\cowin\test2.py: 13
 # D:\cowin\test3.py: 13
