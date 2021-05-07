@@ -4,7 +4,8 @@
 # D:\cowin\test2.py: 10
 # D:\cowin\test3.py: 10
 beautifulsoup4 == 4.9.3
-
+html5lib == 1.1
+lxml == 4.6.3
 # D:\cowin\test1.py: 13
 # D:\cowin\test2.py: 13
 # D:\cowin\test3.py: 13
